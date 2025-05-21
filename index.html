@@ -7,9 +7,598 @@
   <link rel="manifest" href="manifest.json" />
 </head>
 <body>
-  <h1>Seed Cart Calculator</h1>
-  <p>This is your installable offline-ready app.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="manifest" href="manifest.json"><meta charset="utf-8"/>
+<title>Seed Cart Tank Split Calculator</title>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      text-align: center;
+      transition: background-color 0.5s ease;
+    }
+    label, select, input {
+      margin: 10px auto;
+      display: block;
+      font-size: 1rem;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+<h1>Seed Cart Tank Split Calculator</h1>
+<label for="make">Make:</label>
+<select id="make"></select>
+<label for="model">Model:</label>
+<select id="model"></select>
+<div id="tanks"></div>
+<div class="result" id="output"></div>
+</div>
+<script>
+    const data = {
+  "Case": {
+    "ADX2180": [
+      66.0,
+      114.0,
+      0.0,
+      0.0
+    ],
+    "ADX2230": [
+      86.0,
+      144.0,
+      0.0,
+      0.0
+    ],
+    "ADX3380": [
+      163.0,
+      123.0,
+      94.0,
+      0.0
+    ],
+    "ADX3430": [
+      186.0,
+      102.0,
+      142.0,
+      0.0
+    ],
+    "Precision Air 2230 (2014)": [
+      86.0,
+      144.0,
+      0.0,
+      0.0
+    ],
+    "Precision Air 2280 (2014)": [
+      169.0,
+      118.0,
+      0.0,
+      0.0
+    ],
+    "Precision Air 2330 (2014)": [
+      186.0,
+      142.0,
+      0.0,
+      0.0
+    ],
+    "Precision Air 2355": [
+      160.0,
+      190.0,
+      0.0,
+      0.0
+    ],
+    "Precision Air 3380 (2014)": [
+      118.0,
+      93.0,
+      169.0,
+      0.0
+    ],
+    "Precision Air 3430 (2014)": [
+      142.0,
+      102.0,
+      186.0,
+      0.0
+    ],
+    "Precision air 3445": [
+      140.0,
+      105.0,
+      190.0,
+      0.0
+    ],
+    "Precision Air 3555": [
+      190.0,
+      105.0,
+      260.0,
+      0.0
+    ],
+    "Precision Air 3580 (2014)": [
+      135.0,
+      183.0,
+      262.0,
+      0.0
+    ],
+    "Precision Air 3725": [
+      230.0,
+      170.0,
+      325.0,
+      0.0
+    ],
+    "Precision Air 3915": [
+      325.0,
+      170.0,
+      420.0,
+      0.0
+    ],
+    "Precision Air 4465": [
+      140.0,
+      105.0,
+      190.0,
+      25.0
+    ],
+    "Precision Air 4585": [
+      190.0,
+      105.0,
+      260.0,
+      25.0
+    ],
+    "Precision Air 4765": [
+      230.0,
+      170.0,
+      325.0,
+      35.0
+    ],
+    "Precision Air 4955": [
+      325.0,
+      170.0,
+      420.0,
+      35.0
+    ]
+  },
+  "John Deere": {
+    "1910 TBH (Tow Between) 2 Tank - 270bu": [
+      120.0,
+      150.0,
+      0.0,
+      0.0
+    ],
+    "1910  TBH (Tow Between) 2 Tank - 350 bu": [
+      150.0,
+      200.0,
+      0.0,
+      0.0
+    ],
+    "1910 TBH (Tow Between) 3 Tank - 250 bu": [
+      75.0,
+      55.0,
+      120.0,
+      0.0
+    ],
+    "1910 TBH(Tow Between) 3 Tank - 430 bu": [
+      150.0,
+      80.0,
+      200.0,
+      0.0
+    ],
+    "1910 TBH (Tow Between) 2 Tank - 270 bu": [
+      120.0,
+      150.0,
+      0.0,
+      0.0
+    ],
+    "1910 TBH (Tow Behind) 2 Tank - 350 bu": [
+      150.0,
+      200.0,
+      0.0,
+      0.0
+    ],
+    "1910 TBH (Tow Behind) 3 Tank - 340 bu": [
+      120.0,
+      70.0,
+      150.0,
+      0.0
+    ],
+    "1910 TBH (Tow Behind) 3 Tank - 430 bu": [
+      150.0,
+      80.0,
+      200.0,
+      0.0
+    ],
+    "1910 TBH (Tow Behind) 3 Tank - 550 bu": [
+      200.0,
+      150.0,
+      200.0,
+      0.0
+    ],
+    "C350L/T": [
+      160.0,
+      190.0,
+      0.0,
+      0.0
+    ],
+    "C400L/T": [
+      160.0,
+      50.0,
+      190.0,
+      0.0
+    ],
+    "C500L/T": [
+      190.0,
+      90.0,
+      220.0,
+      0.0
+    ],
+    "C550L/T": [
+      190.0,
+      90.0,
+      50.0,
+      220.0
+    ],
+    "C650L/T": [
+      50.0,
+      260.0,
+      130.0,
+      210.0
+    ],
+    "C850T": [
+      50.0,
+      260.0,
+      130.0,
+      410.0
+    ]
+  },
+  "Horsch": {
+    "SW 12000": [
+      170.0,
+      170.0,
+      0.0,
+      0.0
+    ],
+    "SW 12003": [
+      110.0,
+      55.0,
+      165.0,
+      0.0
+    ],
+    "SW 17000": [
+      234.0,
+      234.0,
+      0.0,
+      0.0
+    ],
+    "SW 17003": [
+      110.0,
+      179.0,
+      179.0,
+      0.0
+    ],
+    "SW 21000": [
+      234.0,
+      110.0,
+      234.0,
+      0.0
+    ],
+    "SW 600": [
+      300.0,
+      210.0,
+      90.0,
+      0.0
+    ],
+    "SW 8000": [
+      113.0,
+      113.0,
+      0.0,
+      0.0
+    ],
+    "Avatar SD40": [
+      83.0,
+      83.0,
+      0.0,
+      0.0
+    ],
+    "Avatar 12.25 LC": [
+      129.0,
+      39.0,
+      90.0,
+      0.0
+    ]
+  },
+  "Vaderstad": {
+    "Seed Hawk 660 Tank": [
+      220.0,
+      240.0,
+      200.0,
+      0.0
+    ],
+    "Seed Hawk 800 Tank": [
+      260.0,
+      280.0,
+      260.0,
+      0.0
+    ],
+    "Seed Hawk 980 Tank": [
+      330.0,
+      320.0,
+      330.0,
+      0.0
+    ],
+    "Seed Hawk 980XL Tank": [
+      300.0,
+      260.0,
+      200.0,
+      220.0
+    ],
+    "Seed Hawk 1300XL Tank": [
+      400.0,
+      340.0,
+      260.0,
+      300.0
+    ],
+    "Spirit Series Split Hopper": [
+      64.2,
+      42.8,
+      0.0,
+      0.0
+    ]
+  },
+  "Seedmaster": {
+    "Ultra SR": [
+      240.0,
+      60.0,
+      150.0,
+      300.0
+    ],
+    "UltraPro II 20": [
+      20.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "UltraPro II 40": [
+      40.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "UltraPro II 350": [
+      350.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "UltraPro II 360": [
+      40.0,
+      320.0,
+      0.0,
+      0.0
+    ],
+    "UltraPro II 530": [
+      170.0,
+      360.0,
+      0.0,
+      0.0
+    ],
+    "UltraPro II 550": [
+      40.0,
+      240.0,
+      270.0,
+      0.0
+    ],
+    "Nova 520": [
+      260.0,
+      260.0,
+      0.0,
+      0.0
+    ],
+    "Nova 560": [
+      260.0,
+      260.0,
+      40.0,
+      0.0
+    ],
+    "Nova 630": [
+      260.0,
+      260.0,
+      110.0,
+      0.0
+    ],
+    "Nova 780": [
+      260.0,
+      260.0,
+      260.0,
+      0.0
+    ],
+    "Nova 820": [
+      260.0,
+      260.0,
+      260.0,
+      40.0
+    ],
+    "E-Series -E800": [
+      315.0,
+      170.0,
+      315.0,
+      0.0
+    ],
+    "E-Series -E860": [
+      315.0,
+      170.0,
+      315.0,
+      60.0
+    ],
+    "UltraPro III": [
+      80.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "Bourgault": {
+    "8550": [
+      165.0,
+      110.0,
+      110.0,
+      165.0
+    ],
+    "8450": [
+      135.0,
+      90.0,
+      90.0,
+      135.0
+    ],
+    "8350": [
+      140.0,
+      70.0,
+      140.0,
+      0.0
+    ],
+    "L8550": [
+      165.0,
+      110.0,
+      110.0,
+      165.0
+    ],
+    "L8450": [
+      135.0,
+      90.0,
+      90.0,
+      135.0
+    ],
+    "L8350": [
+      140.0,
+      70.0,
+      140.0,
+      0.0
+    ],
+    "91300": [
+      635.0,
+      230.0,
+      140.0,
+      295.0
+    ],
+    "9950": [
+      465.0,
+      165.0,
+      100.0,
+      220.0
+    ],
+    "9650": [
+      195.0,
+      130.0,
+      130.0,
+      195.0
+    ],
+    "L9950": [
+      220.0,
+      100.0,
+      165.0,
+      465.0
+    ],
+    "L9650": [
+      195.0,
+      130.0,
+      130.0,
+      195.0
+    ]
+  }
+}
 
+    const makeSelect = document.getElementById('make');
+    const modelSelect = document.getElementById('model');
+    const tanksDiv = document.getElementById('tanks');
+    const output = document.getElementById('output');
+
+    const backgroundColors = {
+  "John Deere": "#367C2B",
+  "Case": "#D0002D",
+  "Horsch": "#808080",
+  "Vaderstad": "#EE251B",
+  "Seedmaster": "#E1AD01",
+  "Bourgault": "#D3D3D3"
+};
+
+    Object.keys(data).forEach(make => {
+      const opt = document.createElement('option');
+      opt.value = make;
+      opt.textContent = make;
+      makeSelect.appendChild(opt);
+    });
+
+    makeSelect.addEventListener('change', () => {
+      document.body.style.backgroundColor = backgroundColors[makeSelect.value] || "#ffffff";
+      modelSelect.innerHTML = '';
+      const models = data[makeSelect.value];
+      Object.keys(models).forEach(model => {
+        const opt = document.createElement('option');
+        opt.value = model;
+        opt.textContent = model;
+        modelSelect.appendChild(opt);
+      });
+      updateTanks();
+    });
+
+    modelSelect.addEventListener('change', updateTanks);
+
+    function updateTanks() {
+      tanksDiv.innerHTML = '';
+      output.innerHTML = '';
+      const capacities = data[makeSelect.value][modelSelect.value];
+
+      capacities.forEach((cap, i) => {
+        if (cap > 0) {
+          const id = `tank${i+1}`;
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.id = id;
+          checkbox.dataset.cap = cap;
+          checkbox.addEventListener('change', calculate);
+
+          const label = document.createElement('label');
+          label.htmlFor = id;
+          label.textContent = `Tank ${i+1} (${cap} bu)`;
+
+          tanksDiv.appendChild(checkbox);
+          tanksDiv.appendChild(label);
+        }
+      });
+    }
+
+    function calculate() {
+      const selected = [...tanksDiv.querySelectorAll('input:checked')];
+      const caps = selected.map(cb => parseFloat(cb.dataset.cap));
+      const total = caps.reduce((a, b) => a + b, 0);
+
+      if (total === 0) {
+        output.textContent = '';
+        return;
+      }
+
+      const ratios = caps.map(c => (c / total).toFixed(2));
+      output.innerHTML = `
+        <p>Total Selected Capacity: <strong>${total.toFixed(2)} bu</strong></p>
+        <p>Suggested Mix Ratios:</p>
+        <ul>
+          ${ratios.map((r, i) => `<li>Tank ${i+1}: ${r}</li>`).join('')}
+        </ul>
+      `;
+    }
+
+    makeSelect.dispatchEvent(new Event('change'));
+  </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js');
+  }
+</script>
+</body>
+</html>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./service-worker.js');
